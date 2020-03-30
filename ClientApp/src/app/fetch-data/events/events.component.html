@@ -1,0 +1,32 @@
+<h1 id="tableLabel">Events</h1>
+
+<p *ngIf="!events">
+  <em>Loading...</em>
+</p>
+
+<div class="form-inline mb-2 float-right">
+  <input type="text" [(ngModel)]="termsSearch" class="form-control" placeholder="Filter by topics..." />
+</div>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="events">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Topic</th>
+      <th>City</th>
+      <th>Subscribers</th>
+      <th>Group</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of filteredEvents">
+      <td>{{ event.id }}</td>
+      <td>{{ event.topic }}</td>
+      <td>{{ event.city }}</td>
+      <td>{{ event.subscribers }}</td>
+      <td>{{ event.group | uppercase }}</td>
+      <td>{{ event.date }}</td>
+    </tr>
+  </tbody>
+</table>
