@@ -1,7 +1,7 @@
-﻿using Angular.Context;
+﻿using Angular.API.Domain.Models;
+using Angular.API.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Angular.Controllers
@@ -10,11 +10,13 @@ namespace Angular.Controllers
     [Route("api/[controller]")]
     public class EventsController : Controller
     {
-        private readonly EventContext _context;
+        private readonly IEventRepository _eventRepository;
+        private readonly IRepository _repository;
 
-        public EventsController(EventContext context)
+        public EventsController(IEventRepository eventRepository, IRepository repository)
         {
-            _context = context;
+            _eventRepository = eventRepository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -22,7 +24,7 @@ namespace Angular.Controllers
         {
             try
             {
-                var results = await _context.Events.ToListAsync();
+                var results = await _eventRepository.GetAllAsync(true);
                 return Ok(results);
             }
             catch (System.Exception ex)
@@ -37,8 +39,92 @@ namespace Angular.Controllers
         {
             try
             {
-                var result = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+                var result = await _eventRepository.GetByIdAsync(id, true);
                 return Ok(result);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("topics/{topic}")]
+        public async Task<IActionResult> Get(string topic)
+        {
+            try
+            {
+                var result = await _eventRepository.GetByTopicAsync(topic, true);
+                return Ok(result);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Event model)
+        {
+            try
+            {
+                _repository.Add(model);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created($"/api/events/{ model.Id }", model);
+                }
+
+                return BadRequest();
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, Event model)
+        {
+            try
+            {
+                var @event = _eventRepository.GetByIdAsync(id);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+
+                _repository.Update(model);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created($"/api/events/{ model.Id }", model);
+                }
+
+                return BadRequest();
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var @event = _eventRepository.GetByIdAsync(id);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+
+                _repository.Delete(@event);
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+
+                return BadRequest();
             }
             catch (System.Exception ex)
             {

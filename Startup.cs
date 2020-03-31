@@ -1,4 +1,6 @@
-using Angular.Context;
+using Angular.API.Repository;
+using Angular.API.Repository.Context;
+using Angular.API.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +25,11 @@ namespace Angular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EventContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
+
+            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<ISpeakerRepository, SpeakerRepository>();
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
