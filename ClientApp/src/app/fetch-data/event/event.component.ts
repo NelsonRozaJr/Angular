@@ -1,3 +1,5 @@
+// Generated through command line 'PM > ng generate component event'
+
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/Event';
 import { EventService } from '../../services/event.service';

@@ -1,3 +1,5 @@
+// Generated through command line 'PM > ng generate service event'
+
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Event } from '../models/Event';
