@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/Event';
 import { EventService } from '../../services/event.service';
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './event.component.html'
+  selector: 'app-event',
+  templateUrl: './event.component.html',
+  styleUrls: ['./event.component.css']
 })
 
-export class EventsComponent {
+export class EventComponent implements OnInit {
   public events: Event[];
   public filteredEvents: Event[];
 
@@ -20,7 +21,9 @@ export class EventsComponent {
     this.filteredEvents = this.termsSearch ? this.filterEvents(this.termsSearch) : this.events;
   }
 
-  constructor(private eventService: EventService) {
+  constructor(private eventService: EventService) { }
+
+  ngOnInit(): void {
     this.eventService.getEvent().subscribe(result => {
       this.events = result;
       this.filteredEvents = result;

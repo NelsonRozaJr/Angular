@@ -38,10 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\Event.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\Group.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\SocialMedia.ts" />
