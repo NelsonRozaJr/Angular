@@ -10,6 +10,7 @@ export interface Event {
   phone: string;
   email: string;
   date: Date;
+  imageFile: string;
   groups: Group[];
   socialMedias: SocialMedia[];
   speakerEvents: Speaker[];

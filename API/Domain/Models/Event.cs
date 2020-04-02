@@ -19,6 +19,8 @@ namespace Angular.API.Domain.Models
 
         public DateTime Date { get; set; }
 
+        public string ImageFile { get; set; }
+
         public List<Group> Groups { get; set; }
 
         public List<SocialMedia> SocialMedias { get; set; }

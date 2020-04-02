@@ -1,4 +1,6 @@
-// Generated through command line 'PM > ng generate component event'
+// Generated through command line
+// PM> cd .\ClientApp\src\app\fetch-data
+// PM> ng generate component event
 
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/Event';
@@ -11,8 +13,13 @@ import { EventService } from '../../services/event.service';
 })
 
 export class EventComponent implements OnInit {
-  public events: Event[];
-  public filteredEvents: Event[];
+  private events: Event[];
+  private filteredEvents: Event[];
+
+  private imageWidth = 50;
+  private imageMargin = 2;
+
+  private showImage = false;
 
   private _termsSearch: string;
   get termsSearch() {
@@ -26,10 +33,14 @@ export class EventComponent implements OnInit {
   constructor(private eventService: EventService) { }
 
   ngOnInit(): void {
-    this.eventService.getEvent().subscribe(result => {
-      this.events = result;
-      this.filteredEvents = result;
+    this.eventService.getEvents().subscribe((_eventos: Event[]) => {
+      this.events = _eventos;
+      this.filteredEvents = _eventos;
     }, error => console.error(error));
+  }
+
+  toggleImage() {
+    this.showImage = !this.showImage;
   }
 
   filterEvents(termsSearch: string): Event[] {

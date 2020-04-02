@@ -11,20 +11,47 @@
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="events">
   <thead>
     <tr>
+      <th [style.width.px]="80">
+        <i class="fa {{ showImage ? 'fa-eye' : 'fa-eye-slash' }}" (click)="toggleImage()"></i>
+      </th>
       <th>Id</th>
       <th>Topic</th>
       <th>City</th>
-      <th>Subscribers</th>
       <th>Date</th>
+      <th>Subscribers</th>
+      <th>Group</th>
+
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let event of filteredEvents">
-      <td>{{ event.id }}</td>
-      <td>{{ event.topic }}</td>
-      <td>{{ event.city }}</td>
-      <td>{{ event.subscribers }}</td>
-      <td>{{ event.date }}</td>
+      <td>
+        <img *ngIf="showImage" src="img/{{ event.imageFile }}" [style.width.px]="imageWidth" [style.margin.px]="imageMargin" />
+      </td>
+      <td>
+        {{ event.id }}
+      </td>
+      <td>
+        {{ event.topic }}
+      </td>
+      <td>
+        {{ event.city }}
+      </td>
+      <td>
+        {{ event.date }}
+      </td>
+      <td>
+        {{ event.subscribers }}
+      </td>
+      <td>
+        <div *ngIf="event.groups.length">
+          {{ event.groups[0].name | uppercase }}
+        </div>
+        <div *ngIf="!event.groups.length">
+          Nenhum lote encontrado
+        </div>
+      </td>
+
     </tr>
   </tbody>
 </table>
