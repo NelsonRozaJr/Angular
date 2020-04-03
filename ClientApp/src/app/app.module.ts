@@ -10,12 +10,12 @@ import { EventService } from './services/event.service';
 
 import { DateTimeFormatPipe } from './helpers/date-time-format.pipe';
 
-import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { WeatherForecastComponent } from './fetch-data/weather-forecast/weather-forecast.component';
-import { EventComponent } from './fetch-data/event/event.component';
+import { AppComponent } from './components/app/app.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { HomeComponent } from './components/home/home.component';
+import { CounterComponent } from './components/counter/counter.component';
+import { WeatherForecastComponent } from './components/weather-forecast/weather-forecast.component';
+import { EventComponent } from './components/event/event.component';
 
 @NgModule({
   declarations: [
