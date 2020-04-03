@@ -12,7 +12,9 @@
   <thead>
     <tr>
       <th [style.width.px]="80">
-        <i class="fa {{ showImage ? 'fa-eye' : 'fa-eye-slash' }}" (click)="toggleImage()"></i>
+        <button class="btn btn-outline-primary">
+          <i class="fa {{ showImage ? 'fa-eye' : 'fa-eye-slash' }}" (click)="toggleImage()"></i>
+        </button>
       </th>
       <th>Id</th>
       <th>Topic</th>
@@ -20,7 +22,7 @@
       <th>Date</th>
       <th>Subscribers</th>
       <th>Group</th>
-
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -38,7 +40,7 @@
         {{ event.city }}
       </td>
       <td>
-        {{ event.date }}
+        {{ event.date | dateTimeFormat }}
       </td>
       <td>
         {{ event.subscribers }}
@@ -51,7 +53,28 @@
           Nenhum lote encontrado
         </div>
       </td>
-
+      <td>
+        <div class="form-group">
+          <button class="btn btn-sm btn-success" tooltip="Editar" (click)="openModal(template)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" tooltip="Excluir">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    This is a modal.
+  </div>
+</ng-template>

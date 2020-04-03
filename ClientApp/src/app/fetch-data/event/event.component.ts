@@ -2,9 +2,10 @@
 // PM> cd .\ClientApp\src\app\fetch-data
 // PM> ng generate component event
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Event } from '../../models/Event';
 import { EventService } from '../../services/event.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-event',
@@ -15,11 +16,10 @@ import { EventService } from '../../services/event.service';
 export class EventComponent implements OnInit {
   private events: Event[];
   private filteredEvents: Event[];
-
   private imageWidth = 50;
   private imageMargin = 2;
-
   private showImage = false;
+  private modelRef: BsModalRef;
 
   private _termsSearch: string;
   get termsSearch() {
@@ -30,7 +30,11 @@ export class EventComponent implements OnInit {
     this.filteredEvents = this.termsSearch ? this.filterEvents(this.termsSearch) : this.events;
   }
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService, private modalService: BsModalService) { }
+
+  openModal(template: TemplateRef<any>) {
+    this.modelRef = this.modalService.show(template);
+  }
 
   ngOnInit(): void {
     this.eventService.getEvents().subscribe((_eventos: Event[]) => {

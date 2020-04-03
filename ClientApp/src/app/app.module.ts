@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { EventService } from './services/event.service';
+
+import { DateTimeFormatPipe } from './helpers/date-time-format.pipe';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -18,12 +24,17 @@ import { EventComponent } from './fetch-data/event/event.component';
     HomeComponent,
     CounterComponent,
     WeatherForecastComponent,
-    EventComponent
+    EventComponent,
+    DateTimeFormatPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    TooltipModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -31,7 +42,9 @@ import { EventComponent } from './fetch-data/event/event.component';
       { path: 'events', component: EventComponent }
     ])
   ],
-  providers: [],
+  providers: [
+    EventService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
