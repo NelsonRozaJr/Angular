@@ -78,3 +78,89 @@
     This is a modal.
   </div>
 </ng-template>
+
+<form [formGroup]="registerForm">
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label>Topic</label>
+      <input type="text" class="form-control" formControlName="topic"
+             [ngClass]="{ 'is-invalid': registerForm.get('topic').errors && registerForm.get('topic').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('topic').hasError('required') && registerForm.get('topic').touched">
+        Topic é obrigatório
+      </div>
+      <div class="invalid-feedback" *ngIf="registerForm.get('topic').hasError('minlength') && registerForm.get('topic').touched">
+        Topic deve ter no mínimo 4 caracteres
+      </div>
+      <div class="invalid-feedback" *ngIf="registerForm.get('topic').hasError('maxlength') && registerForm.get('topic').touched">
+        Topic deve ter no máximo 50 caracteres
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <label>City</label>
+      <input type="text" class="form-control" formControlName="city"
+             [ngClass]="{ 'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('city').hasError('required') && registerForm.get('city').touched">
+        City é obrigatório
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Date</label>
+      <input type="text" class="form-control" formControlName="date"
+             [ngClass]="{ 'is-invalid': registerForm.get('date').errors && registerForm.get('date').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('date').hasError('required') && registerForm.get('date').touched">
+        Date é obrigatório
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Subscribers</label>
+      <input type="text" class="form-control" formControlName="subscribers"
+             [ngClass]="{ 'is-invalid': registerForm.get('subscribers').errors && registerForm.get('subscribers').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('subscribers').hasError('required') && registerForm.get('subscribers').touched">
+        Subscribers é obrigatório
+      </div>
+      <div class="invalid-feedback" *ngIf="registerForm.get('subscribers').hasError('max') && registerForm.get('subscribers').touched">
+        Subscribers deve ser no máximo 1000
+      </div>
+    </div>
+    <div class="form-group col-md-9">
+      <label>Image</label>
+      <input type="text" class="form-control" formControlName="imageFile"
+             [ngClass]="{ 'is-invalid': registerForm.get('imageFile').errors && registerForm.get('imageFile').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('imageFile').hasError('required') && registerForm.get('imageFile').touched">
+        Image é obrigatório
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Phone</label>
+      <input type="text" class="form-control" formControlName="phone"
+             [ngClass]="{ 'is-invalid': registerForm.get('phone').errors && registerForm.get('phone').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('phone').hasError('required') && registerForm.get('phone').touched">
+        Phone é obrigatório
+      </div>
+    </div>
+    <div class="form-group col-md-8">
+      <label>E-mail</label>
+      <input type="text" class="form-control" formControlName="email"
+             [ngClass]="{ 'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched }">
+      <div class="invalid-feedback" *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched">
+        E-mail é obrigatório
+      </div>
+      <div class="invalid-feedback" *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched">
+        E-mail deve ser válido
+      </div>
+    </div>
+  </div>
+</form>
+<br>
+<button class="btn btn-secondary" (click)="openModal(template)">
+  Fechar
+</button>
+<button class="btn btn-primary" (click)="saveChanges()">
+  Salvar Alterações
+</button>
