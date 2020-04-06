@@ -58,7 +58,7 @@ export class EventComponent implements OnInit {
   }
 
   deleteEvent(event: Event, template: any) {
-    this.openModal(template);
+    template.show();
     this.event = event;
     this.messageDeleteEvent = `Tem certeza que deseja excluir o evento '${ event.topic }' (#${ event.id })?`;
   }
