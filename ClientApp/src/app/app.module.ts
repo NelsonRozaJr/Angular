@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { BsDropdownModule, ModalModule, BsModalRef, TooltipModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { EventService } from './services/event.service';
@@ -34,6 +35,7 @@ import { EventComponent } from './components/event/event.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     RouterModule.forRoot([
@@ -44,8 +46,7 @@ import { EventComponent } from './components/event/event.component';
     ])
   ],
   providers: [
-    EventService,
-    BsModalRef
+    EventService
   ],
   bootstrap: [AppComponent]
 })

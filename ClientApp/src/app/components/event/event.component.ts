@@ -2,11 +2,12 @@
 // PM> cd .\ClientApp\src\app\components
 // PM> ng generate component event
 
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/Event';
 import { EventService } from '../../services/event.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-event',
@@ -15,12 +16,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 
 export class EventComponent implements OnInit {
+  private event: Event;
   private events: Event[];
   private filteredEvents: Event[];
   private imageWidth = 50;
   private imageMargin = 2;
   private showImage = false;
   private registerForm: FormGroup;
+  private isNewEvent: boolean;
+  private messageDeleteEvent: string;
 
   private _termsSearch: string;
   get termsSearch() {
@@ -31,15 +35,52 @@ export class EventComponent implements OnInit {
     this.filteredEvents = this.termsSearch ? this.filterEvents(this.termsSearch) : this.events;
   }
 
-  constructor(private eventService: EventService, private modalService: BsModalService, private modalRef: BsModalRef) { }
+  constructor(private eventService: EventService,
+    private formBuilder: FormBuilder,
+    private localeService: BsLocaleService) {
+      this.localeService.use('pt-br');
+  }
 
   ngOnInit(): void {
     this.validation();
     this.getEvents();
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  newEvent(template: any) {
+    this.isNewEvent = true;
+    this.openModal(template);
+  }
+
+  editEvent(event: Event, template: any) {
+    this.openModal(template);
+    this.event = event;
+    this.registerForm.patchValue(event);
+  }
+
+  deleteEvent(event: Event, template: any) {
+    this.openModal(template);
+    this.event = event;
+    this.messageDeleteEvent = `Tem certeza que deseja excluir o evento '${ event.topic }' (#${ event.id })?`;
+  }
+
+  confirmDelete(template: any) {
+    this.eventService.deleteEvent(this.event.id).subscribe(
+      () => {
+        template.hide();
+        this.getEvents();
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  openModal(template: any) {
+    this.registerForm.reset();
+    template.show();
+  }
+
+  closeModal(template: any) {
+    template.hide();
   }
 
   toggleImage() {
@@ -54,25 +95,49 @@ export class EventComponent implements OnInit {
   }
 
   getEvents() {
-    this.eventService.getEvents().subscribe((_eventos: Event[]) => {
-      this.events = _eventos;
-      this.filteredEvents = _eventos;
+    this.eventService.getEvents().subscribe((_events: Event[]) => {
+      this.events = _events;
+      this.filteredEvents = _events;
     }, error => console.error(error));
   }
 
   validation() {
-    this.registerForm = new FormGroup({
-      city: new FormControl('', [Validators.required]),
-      topic: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
-      subscribers: new FormControl('', [Validators.required, Validators.max(1000)]),
-      phone: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      date: new FormControl('', [Validators.required]),
-      imageFile: new FormControl('', [Validators.required])
+    this.registerForm = this.formBuilder.group({
+      city: ['', [Validators.required]],
+      topic: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      subscribers: ['', [Validators.required, Validators.max(1000)]],
+      phone: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      date: ['', [Validators.required]],
+      imageFile: ['', [Validators.required]]
     });
   }
 
-  saveChanges() {
-
+  saveChanges(template: any) {
+    if (this.registerForm.valid) {
+      if (this.isNewEvent) {
+        this.event = Object.assign({}, this.registerForm.value);
+        this.eventService.postEvent(this.event).subscribe(
+          () => {
+            template.hide();
+            this.getEvents();
+          }, error => {
+            console.log(error);
+          }
+        );
+      }
+      else {
+        console.log('1');
+        this.event = Object.assign({ id: this.event.id }, this.registerForm.value);
+        this.eventService.putEvent(this.event).subscribe(
+          () => {
+            template.hide();
+            this.getEvents();
+          }, error => {
+            console.log(error);
+          }
+        );
+      }
+    }
   }
 }

@@ -83,12 +83,13 @@ namespace Angular.Controllers
         }
 
         [HttpPut]
+        [Route("{id}")]
         public async Task<IActionResult> Put(int id, Event model)
         {
             try
             {
-                var @event = _eventRepository.GetByIdAsync(id);
-                if (@event == null)
+                var _event = await _eventRepository.GetByIdAsync(id);
+                if (_event == null)
                 {
                     return NotFound();
                 }
@@ -108,17 +109,18 @@ namespace Angular.Controllers
         }
 
         [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var @event = _eventRepository.GetByIdAsync(id);
-                if (@event == null)
+                var currentEvent = await _eventRepository.GetByIdAsync(id);
+                if (currentEvent == null)
                 {
                     return NotFound();
                 }
 
-                _repository.Delete(@event);
+                _repository.Delete(currentEvent);
                 if (await _repository.SaveChangesAsync())
                 {
                     return Ok();
