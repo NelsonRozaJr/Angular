@@ -1,6 +1,7 @@
 using Angular.API.Repository;
 using Angular.API.Repository.Context;
 using Angular.API.Repository.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,8 @@ namespace Angular
             services.AddTransient<IRepository, Repository>();
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<ISpeakerRepository, SpeakerRepository>();
+
+            services.AddAutoMapper();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

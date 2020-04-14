@@ -1,7 +1,10 @@
 ﻿using Angular.API.Domain.Models;
+using Angular.API.DTOs;
 using Angular.API.Repository.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Angular.Controllers
@@ -12,11 +15,13 @@ namespace Angular.Controllers
     {
         private readonly IEventRepository _eventRepository;
         private readonly IRepository _repository;
+        private readonly IMapper _mapper;
 
-        public EventsController(IEventRepository eventRepository, IRepository repository)
+        public EventsController(IEventRepository eventRepository, IRepository repository, IMapper mapper)
         {
             _eventRepository = eventRepository;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,7 +29,9 @@ namespace Angular.Controllers
         {
             try
             {
-                var results = await _eventRepository.GetAllAsync(true);
+                var events = await _eventRepository.GetAllAsync(true);
+                var results = _mapper.Map<List<EventDTO>>(events);
+
                 return Ok(results);
             }
             catch (System.Exception ex)
@@ -39,7 +46,9 @@ namespace Angular.Controllers
         {
             try
             {
-                var result = await _eventRepository.GetByIdAsync(id, true);
+                var _event = await _eventRepository.GetByIdAsync(id, true);
+                var result = _mapper.Map<EventDTO>(_event);
+
                 return Ok(result);
             }
             catch (System.Exception ex)
@@ -54,8 +63,10 @@ namespace Angular.Controllers
         {
             try
             {
-                var result = await _eventRepository.GetByTopicAsync(topic, true);
-                return Ok(result);
+                var events = await _eventRepository.GetByTopicAsync(topic, true);
+                var results = _mapper.Map<List<EventDTO>>(events);
+
+                return Ok(results);
             }
             catch (System.Exception ex)
             {
@@ -64,14 +75,16 @@ namespace Angular.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Event model)
+        public async Task<IActionResult> Post(EventDTO model)
         {
             try
             {
-                _repository.Add(model);
+                var _event = _mapper.Map<Event>(model);
+
+                _repository.Add(_event);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return Created($"/api/events/{ model.Id }", model);
+                    return Created($"/api/events/{ _event.Id }", _event);
                 }
 
                 return BadRequest();
@@ -84,7 +97,7 @@ namespace Angular.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Put(int id, Event model)
+        public async Task<IActionResult> Put(int id, EventDTO model)
         {
             try
             {
@@ -94,10 +107,12 @@ namespace Angular.Controllers
                     return NotFound();
                 }
 
-                _repository.Update(model);
+                _mapper.Map(model, _event);
+
+                _repository.Update(_event);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return Created($"/api/events/{ model.Id }", model);
+                    return Created($"/api/events/{ _event.Id }", _event);
                 }
 
                 return BadRequest();
