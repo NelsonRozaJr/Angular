@@ -72,6 +72,13 @@
       </td>
     </tr>
   </tbody>
+  <tfoot *ngIf="!filteredEvents.length">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h4>Nenhum evento encontrado.</h4>
+      </td>
+    </tr>
+  </tfoot>
 </table>
 
 <div bsModal #template="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
@@ -113,7 +120,7 @@
             <div class="form-group col-md-4">
               <label>Data</label>
               <input bsDatepicker type="text" class="form-control" formControlName="date"
-                     [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY HH:mm' }"
+                     [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:MM' }"
                      [ngClass]="{ 'is-invalid': registerForm.get('date').errors && registerForm.get('date').touched }">
               <div class="invalid-feedback" *ngIf="registerForm.get('date').hasError('required') && registerForm.get('date').touched">
                 Data é obrigatório

@@ -7,6 +7,8 @@ import { Event } from '../../models/Event';
 import { EventService } from '../../services/event.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -37,7 +39,8 @@ export class EventComponent implements OnInit {
 
   constructor(private eventService: EventService,
     private formBuilder: FormBuilder,
-    private localeService: BsLocaleService) {
+    private localeService: BsLocaleService,
+    private toastr: ToastrService) {
       this.localeService.use('pt-br');
   }
 
@@ -53,6 +56,8 @@ export class EventComponent implements OnInit {
 
   editEvent(event: Event, template: any) {
     this.openModal(template);
+
+    event.date = new Date(event.date); // Timestamp to Date
     this.event = event;
     this.registerForm.patchValue(event);
   }
@@ -68,8 +73,9 @@ export class EventComponent implements OnInit {
       () => {
         template.hide();
         this.getEvents();
+        this.toastr.success('Evento excluído com sucesso.');
       }, error => {
-        console.log(error);
+        this.toastr.error(`Erro ao excluir evento: ${error}`);
       }
     );
   }
@@ -98,7 +104,9 @@ export class EventComponent implements OnInit {
     this.eventService.getEvents().subscribe((_events: Event[]) => {
       this.events = _events;
       this.filteredEvents = _events;
-    }, error => console.error(error));
+    }, error => {
+        this.toastr.error(`Erro ao carregar eventos: ${error}`);
+    });
   }
 
   validation() {
@@ -121,20 +129,21 @@ export class EventComponent implements OnInit {
           () => {
             template.hide();
             this.getEvents();
+            this.toastr.success('Evento criado com sucesso.');
           }, error => {
-            console.log(error);
+            this.toastr.error(`Erro ao criar evento: ${error}`);
           }
         );
       }
       else {
-        console.log('1');
         this.event = Object.assign({ id: this.event.id }, this.registerForm.value);
         this.eventService.putEvent(this.event).subscribe(
           () => {
             template.hide();
             this.getEvents();
+            this.toastr.success('Evento atualizado com sucesso.');
           }, error => {
-            console.log(error);
+            this.toastr.error(`Erro ao atualizar evento: ${error}`);
           }
         );
       }

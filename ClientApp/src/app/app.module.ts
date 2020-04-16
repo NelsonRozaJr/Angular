@@ -7,6 +7,8 @@ import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ToastrModule } from 'ngx-toastr';
+
 import { EventService } from './services/event.service';
 
 import { DateTimeFormatPipe } from './helpers/date-time-format.pipe';
@@ -38,6 +40,7 @@ import { EventComponent } from './components/event/event.component';
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
+    ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
