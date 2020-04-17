@@ -27,7 +27,7 @@ export class EventComponent implements OnInit {
   private registerForm: FormGroup;
   private isNewEvent: boolean;
   private messageDeleteEvent: string;
-  private title = 'Event';
+  private title = 'Events';
 
   private _termsSearch: string;
   get termsSearch() {

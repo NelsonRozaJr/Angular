@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./speaker.component.css']
 })
 export class SpeakerComponent implements OnInit {
-  private title = 'Speaker';
+  private title = 'Speakers';
 
   constructor() { }
 
