@@ -27,6 +27,7 @@ export class EventComponent implements OnInit {
   private registerForm: FormGroup;
   private isNewEvent: boolean;
   private messageDeleteEvent: string;
+  private title = 'Event';
 
   private _termsSearch: string;
   get termsSearch() {
@@ -57,7 +58,7 @@ export class EventComponent implements OnInit {
   editEvent(event: Event, template: any) {
     this.openModal(template);
 
-    event.date = new Date(event.date); // Timestamp to Date
+    event.date = new Date(event.date);
     this.event = event;
     this.registerForm.patchValue(event);
   }

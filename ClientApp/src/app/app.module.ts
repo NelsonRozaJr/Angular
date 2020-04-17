@@ -19,6 +19,10 @@ import { HomeComponent } from './components/home/home.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { WeatherForecastComponent } from './components/weather-forecast/weather-forecast.component';
 import { EventComponent } from './components/event/event.component';
+import { SpeakerComponent } from './components/speaker/speaker.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { TitleComponent } from './components/title/title.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { EventComponent } from './components/event/event.component';
     CounterComponent,
     WeatherForecastComponent,
     EventComponent,
-    DateTimeFormatPipe
+    SpeakerComponent,
+    DashboardComponent,
+    ContactComponent,
+    DateTimeFormatPipe,
+    TitleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +53,11 @@ import { EventComponent } from './components/event/event.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'weather-forecast', component: WeatherForecastComponent },
-      { path: 'events', component: EventComponent }
+      { path: 'events', component: EventComponent },
+      { path: 'speakers', component: SpeakerComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'contact', component: ContactComponent },
+      { path: '**', redirectTo: '', pathMatch: 'full' }
     ])
   ],
   providers: [

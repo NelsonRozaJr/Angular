@@ -1,4 +1,4 @@
-<h1 id="tableLabel">Eventos</h1>
+<app-title [title]="title"></app-title>
 
 <p *ngIf="!events">
   <em>Loading...</em>
@@ -120,7 +120,8 @@
             <div class="form-group col-md-4">
               <label>Data</label>
               <input bsDatepicker type="text" class="form-control" formControlName="date"
-                     [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:MM' }"
+                     value="{{ date | dateTimeFormat }}"
+                     [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:mm' }" 
                      [ngClass]="{ 'is-invalid': registerForm.get('date').errors && registerForm.get('date').touched }">
               <div class="invalid-feedback" *ngIf="registerForm.get('date').hasError('required') && registerForm.get('date').touched">
                 Data é obrigatório
