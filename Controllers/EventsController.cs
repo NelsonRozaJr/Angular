@@ -78,12 +78,12 @@ namespace Angular.Controllers
 
         [HttpPost]
         [Route("upload")]
-        public async Task<IActionResult> Upload()
+        public IActionResult Upload()
         {
             try
             {
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine("Resources", "Images");
+                var folderName = Path.Combine("API", "Resources", "Images");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
                 if (file.Length > 0)
@@ -91,10 +91,8 @@ namespace Angular.Controllers
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
                     var fullPath = Path.Combine(pathToSave, fileName.Replace("\"", "").Trim());
 
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
+                    using var stream = new FileStream(fullPath, FileMode.Create);
+                    file.CopyTo(stream);
                 }
 
                 return Ok();

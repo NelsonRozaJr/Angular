@@ -28,6 +28,9 @@ export class EventComponent implements OnInit {
   private isNewEvent: boolean;
   private messageDeleteEvent: string;
   private title = 'Events';
+  private file: File;
+  private currentDate: string;
+  private fileNameToUpdate: string;
 
   private _termsSearch: string;
   get termsSearch() {
@@ -56,11 +59,15 @@ export class EventComponent implements OnInit {
   }
 
   editEvent(event: Event, template: any) {
+    this.isNewEvent = false;
     this.openModal(template);
 
-    event.date = new Date(event.date);
-    this.event = event;
-    this.registerForm.patchValue(event);
+    this.event = Object.assign({}, event);
+    this.fileNameToUpdate = event.imageFile.toString();
+    this.event.imageFile = '';
+    this.event.date = new Date(event.date);
+
+    this.registerForm.patchValue(this.event);
   }
 
   deleteEvent(event: Event, template: any) {
@@ -102,6 +109,7 @@ export class EventComponent implements OnInit {
   }
 
   getEvents() {
+    this.currentDate = new Date().getMilliseconds().toString();
     this.eventService.getEvents().subscribe((_events: Event[]) => {
       this.events = _events;
       this.filteredEvents = _events;
@@ -122,10 +130,42 @@ export class EventComponent implements OnInit {
     });
   }
 
+  uploadImagem() {
+    if (this.isNewEvent) {
+      const fileName = this.event.imageFile.split('\\', 3);
+      this.event.imageFile = fileName[2];
+
+      this.eventService.postUpload(this.file, fileName[2])
+        .subscribe(
+          () => {
+            this.currentDate = new Date().getMilliseconds().toString();
+            this.getEvents();
+          }
+        );
+    } else {
+      this.event.imageFile = this.fileNameToUpdate;
+
+      this.eventService.postUpload(this.file, this.fileNameToUpdate)
+        .subscribe(
+          () => {
+            this.currentDate = new Date().getMilliseconds().toString();
+            this.getEvents();
+          }
+        );
+    }
+  }
+
+  onFileChange(event) {
+    if (event.target.files && event.target.files.length) {
+      this.file = event.target.files;
+    }
+  }
+
   saveChanges(template: any) {
     if (this.registerForm.valid) {
       if (this.isNewEvent) {
         this.event = Object.assign({}, this.registerForm.value);
+        this.uploadImagem();
         this.eventService.postEvent(this.event).subscribe(
           () => {
             template.hide();
@@ -138,6 +178,7 @@ export class EventComponent implements OnInit {
       }
       else {
         this.event = Object.assign({ id: this.event.id }, this.registerForm.value);
+        this.uploadImagem();
         this.eventService.putEvent(this.event).subscribe(
           () => {
             template.hide();

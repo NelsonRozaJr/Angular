@@ -48,7 +48,11 @@ import { TitleComponent } from './components/title/title.component';
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      preventDuplicates: true,
+      progressBar: true
+    }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
