@@ -43,6 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="API\Resources\Images\img1.jpg" />
+    <Content Include="API\Resources\Images\img2.jpg" />
+    <Content Include="API\Resources\Images\img3.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\Event.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\Group.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\SocialMedia.ts" />
