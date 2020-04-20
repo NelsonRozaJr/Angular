@@ -1,4 +1,5 @@
-﻿using Angular.API.Domain.Models;
+﻿using Angular.API.Domain.Identity;
+using Angular.API.Domain.Models;
 using Angular.API.DTOs;
 using AutoMapper;
 using System;
@@ -30,6 +31,12 @@ namespace Angular.API.Helpers
                 {
                     opt.MapFrom(src => src.SpeakerEvents.Select(s => s.Event).ToList());
                 })
+                .ReverseMap();
+
+            CreateMap<User, UserDTO>()
+                .ReverseMap();
+
+            CreateMap<User, UserLoginDTO>()
                 .ReverseMap();
         }
     }
