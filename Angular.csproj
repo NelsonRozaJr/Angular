@@ -55,6 +55,7 @@
   <ItemGroup>
     <Folder Include="API\Resources\Images\" />
     <Folder Include="ClientApp\src\app\helpers\" />
+    <Folder Include="ClientApp\src\app\auth\" />
     <Folder Include="ClientApp\src\app\utils\" />
   </ItemGroup>
 

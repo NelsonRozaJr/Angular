@@ -15,6 +15,7 @@
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
            [ngClass]="{ show: isExpanded }">
+
         <ul class="navbar-nav flex-grow">
           <li class="nav-item"
               [routerLinkActive]="['link-active']"
@@ -27,6 +28,14 @@
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/weather-forecast']">Weather forecast</a>
           </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-primary" *ngIf="!isAuthenticated()" (click)="login()">
+              Entrar
+            </button>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav flex-grow mr-auto" *ngIf="isAuthenticated()">
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/dashboard']">Dashboard</a>
           </li>
@@ -40,16 +49,16 @@
             <a class="nav-link text-dark" [routerLink]="['/contact']">Contact</a>
           </li>
           <li class="nav-item dropdown" dropdown>
-            <a dropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-              User
+            <a dropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false" style="cursor: pointer">
+              {{this.authService.decodedToken?.unique_name}}
             </a>
             <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item">
                 Perfil
               </a>
               <div role="separator" class="divider"></div>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" style="cursor: pointer" (click)="logout()">
                 Sair
               </a>
             </div>

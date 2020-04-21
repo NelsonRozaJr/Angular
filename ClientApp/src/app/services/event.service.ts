@@ -15,27 +15,27 @@ export class EventService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${ this.baseUrl }api/events`);
+    return this.http.get<Event[]>(`${this.baseUrl}api/events`);
   }
 
   getEventsByTopic(topic: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${ this.baseUrl }api/events/topics/${ topic }`);
+    return this.http.get<Event[]>(`${this.baseUrl}api/events/topics/${topic}`);
   }
 
   getEventsById(id: number): Observable<Event> {
-    return this.http.get<Event>(`${ this.baseUrl }api/events/${ id }`);
+    return this.http.get<Event>(`${this.baseUrl}api/events/${id}`);
   }
 
   postEvent(event: Event) {
-    return this.http.post(`${ this.baseUrl }api/events/`, event);
+    return this.http.post(`${this.baseUrl}api/events/`, event);
   }
 
   putEvent(event: Event) {
-    return this.http.put(`${ this.baseUrl }api/events/${ event.id }`, event);
+    return this.http.put(`${this.baseUrl}api/events/${event.id}`, event);
   }
 
   deleteEvent(id: number) {
-    return this.http.delete(`${ this.baseUrl }api/events/${ id }`);
+    return this.http.delete(`${this.baseUrl}api/events/${id}`);
   }
 
   postUpload(file: File, name: string) {

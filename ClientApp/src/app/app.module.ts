@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -23,6 +23,11 @@ import { SpeakerComponent } from './components/speaker/speaker.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { TitleComponent } from './components/title/title.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegistrationComponent } from './components/user/registration/registration.component';
+import { AuthGuard } from './auth/auth.guard';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,10 @@ import { TitleComponent } from './components/title/title.component';
     DashboardComponent,
     ContactComponent,
     DateTimeFormatPipe,
-    TitleComponent
+    TitleComponent,
+    UserComponent,
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,16 +64,25 @@ import { TitleComponent } from './components/title/title.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
-      { path: 'weather-forecast', component: WeatherForecastComponent },
-      { path: 'events', component: EventComponent },
-      { path: 'speakers', component: SpeakerComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'contact', component: ContactComponent },
+      { path: 'weather-forecast', component: WeatherForecastComponent, canActivate: [AuthGuard] },
+      { path: 'events', component: EventComponent, canActivate: [AuthGuard] },
+      { path: 'speakers', component: SpeakerComponent, canActivate: [AuthGuard] },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+      { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
+      { path: 'user', component: UserComponent, children: [
+          { path: 'login', component: LoginComponent },
+          { path: 'registration', component: RegistrationComponent }
+      ]},
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ])
   ],
   providers: [
-    EventService
+    EventService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -83,7 +83,7 @@ export class EventComponent implements OnInit {
         this.getEvents();
         this.toastr.success('Evento excluído com sucesso.');
       }, error => {
-        this.toastr.error(`Erro ao excluir evento: ${error}`);
+        this.toastr.error(`Erro ao excluir evento: ${error.message}`);
       }
     );
   }
@@ -114,7 +114,7 @@ export class EventComponent implements OnInit {
       this.events = _events;
       this.filteredEvents = _events;
     }, error => {
-        this.toastr.error(`Erro ao carregar eventos: ${error}`);
+        this.toastr.error(`Erro ao carregar eventos: ${error.message}`);
     });
   }
 
@@ -172,7 +172,7 @@ export class EventComponent implements OnInit {
             this.getEvents();
             this.toastr.success('Evento criado com sucesso.');
           }, error => {
-            this.toastr.error(`Erro ao criar evento: ${error}`);
+            this.toastr.error(`Erro ao criar evento: ${error.message}`);
           }
         );
       }
@@ -185,7 +185,7 @@ export class EventComponent implements OnInit {
             this.getEvents();
             this.toastr.success('Evento atualizado com sucesso.');
           }, error => {
-            this.toastr.error(`Erro ao atualizar evento: ${error}`);
+            this.toastr.error(`Erro ao atualizar evento: ${error.message}`);
           }
         );
       }
