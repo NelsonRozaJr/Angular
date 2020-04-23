@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -134,6 +135,28 @@ namespace Angular.Controllers
                 if (_event == null)
                 {
                     return NotFound();
+                }
+
+                var groupIds = new List<int>();
+                var socialMediaIds = new List<int>();
+
+                model.Groups.ForEach(item => groupIds.Add(item.Id));
+                model.SocialMedias.ForEach(item => socialMediaIds.Add(item.Id));
+
+                var groupsToRemove = _event.Groups.Where(group => !groupIds.Contains(group.Id))
+                    .ToArray();
+
+                var socialMediaToRemove = _event.SocialMedias.Where(socialMedia => !socialMediaIds.Contains(socialMedia.Id))
+                    .ToArray();
+
+                if (groupsToRemove.Length > 0)
+                {
+                    _repository.DeleteRange(groupsToRemove);
+                }
+
+                if (socialMediaToRemove.Length > 0)
+                {
+                    _repository.DeleteRange(socialMediaToRemove);
                 }
 
                 _mapper.Map(model, _event);

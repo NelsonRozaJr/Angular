@@ -24,6 +24,7 @@ export class AuthService {
         if (user) {
           localStorage.setItem('token', user.token);
           this.decodedToken = this.jwtHelperService.decodeToken(user.token);
+          localStorage.setItem('username', this.decodedToken.unique_name);
         }
       })
     );
@@ -33,7 +34,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}api/users/register`, user);
   }
 
-  isAutheticated() {
+  isAuthenticated() {
     const token = localStorage.getItem('token');
     return !this.jwtHelperService.isTokenExpired(token);
   }

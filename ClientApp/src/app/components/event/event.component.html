@@ -1,4 +1,4 @@
-<app-title [title]="title"></app-title>
+<app-title [title]="pageTitle"></app-title>
 
 <p *ngIf="!events">
   <em>Loading...</em>
@@ -68,6 +68,9 @@
           <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="deleteEvent(event, confirm)">
             <i class="fa fa-eraser"></i>
           </button>
+          <a [routerLink]="['/event', event.id, 'edit']" class="btn btn-sm btn-warning" tooltip="Detalhes">
+            <i class="fa fa-eraser"></i>
+          </a>
         </div>
       </td>
     </tr>

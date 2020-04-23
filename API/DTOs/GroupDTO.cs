@@ -19,8 +19,8 @@ namespace Angular.API.DTOs
         [Range(5, 1000)]
         public int Quantity { get; set; }
 
-        public DateTime InitialDate { get; set; }
+        public DateTime? InitialDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

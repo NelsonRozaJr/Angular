@@ -1,7 +1,7 @@
 import { SocialMedia } from "./SocialMedia";
 import { Event } from "./Event";
 
-export interface Speaker {
+export class Speaker {
   id: number;
   name: string;
   shortResume: string;

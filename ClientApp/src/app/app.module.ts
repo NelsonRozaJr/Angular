@@ -4,8 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -28,6 +31,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { EventEditComponent } from './components/event/event-edit/event-edit.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     TitleComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    EventEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,6 +57,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxCurrencyModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -61,11 +67,14 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       preventDuplicates: true,
       progressBar: true
     }),
+    TabsModule.forRoot(),
+    NgxMaskModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'weather-forecast', component: WeatherForecastComponent, canActivate: [AuthGuard] },
       { path: 'events', component: EventComponent, canActivate: [AuthGuard] },
+      { path: 'event/:id/edit', component: EventEditComponent, canActivate: [AuthGuard] },
       { path: 'speakers', component: SpeakerComponent, canActivate: [AuthGuard] },
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },

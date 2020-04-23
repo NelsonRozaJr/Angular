@@ -13,7 +13,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private title = 'Login';
   private model: any = {};
 
   constructor(private toastr: ToastrService,

@@ -2,7 +2,9 @@ import { Group } from "./Group";
 import { SocialMedia } from "./SocialMedia";
 import { Speaker } from "./Speaker";
 
-export interface Event {
+export class Event {
+  constructor() { }
+
   id: number;
   city: string;
   topic: string;

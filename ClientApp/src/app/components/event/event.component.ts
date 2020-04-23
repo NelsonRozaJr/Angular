@@ -27,7 +27,7 @@ export class EventComponent implements OnInit {
   private registerForm: FormGroup;
   private isNewEvent: boolean;
   private messageDeleteEvent: string;
-  private title = 'Events';
+  private pageTitle = 'Events';
   private file: File;
   private currentDate: string;
   private fileNameToUpdate: string;
@@ -144,7 +144,6 @@ export class EventComponent implements OnInit {
         );
     } else {
       this.event.imageFile = this.fileNameToUpdate;
-
       this.eventService.postUpload(this.file, this.fileNameToUpdate)
         .subscribe(
           () => {

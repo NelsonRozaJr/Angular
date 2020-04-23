@@ -1,4 +1,4 @@
-export interface Group {
+export class Group {
   id: number;
   name: string;
   price: number;

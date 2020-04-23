@@ -24,7 +24,13 @@ export class NavMenuComponent {
   }
 
   isAuthenticated() {
-    return this.authService.isAutheticated();
+    const isAuthenticated = this.authService.isAuthenticated();
+    if (!isAuthenticated && localStorage.getItem('token') !== null) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+    }
+
+    return isAuthenticated;
   }
 
   login() {
@@ -33,7 +39,13 @@ export class NavMenuComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+
     this.router.navigate(['/user/login']);
     this.toastr.show('Logout realizado com sucesso.');
+  }
+
+  getUserName() {
+    return localStorage.getItem('username');
   }
 }
