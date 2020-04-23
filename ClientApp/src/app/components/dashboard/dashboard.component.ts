@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private pageTitle = 'Dashboard';
+  pageTitle = 'Dashboard';
 
   constructor() { }
 

@@ -17,13 +17,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class EventEditComponent implements OnInit {
-  private event: Event = new Event();
-  private registerForm: FormGroup;
   private fileNameToUpdate: string;
   private currentDate: string;
   private file: File;
-  private pageTitle = 'Editar evento';
-  private imageFile = 'assets/img/upload.png';
+
+  event: Event = new Event();
+  registerForm: FormGroup;
+  date: string;
+  pageTitle = 'Editar evento';
+  imageFile = 'assets/img/upload.png';
 
   get groups(): FormArray {
     return this.registerForm.get('groups') as FormArray;

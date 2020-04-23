@@ -13,11 +13,11 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private model: any = {};
+  model: any = {};
 
   constructor(private toastr: ToastrService,
-    private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    public router: Router, ) { }
 
   ngOnInit(): void {
     if (localStorage.getItem('token') !== null) {

@@ -48,4 +48,8 @@ export class NavMenuComponent {
   getUserName() {
     return localStorage.getItem('username');
   }
+
+  isLoginPage() {
+    return this.router.url === '/user/login';
+  }
 }

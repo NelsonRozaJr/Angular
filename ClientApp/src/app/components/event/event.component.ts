@@ -19,18 +19,20 @@ defineLocale('pt-br', ptBrLocale);
 
 export class EventComponent implements OnInit {
   private event: Event;
-  private events: Event[];
   private filteredEvents: Event[];
   private imageWidth = 50;
   private imageMargin = 2;
   private showImage = false;
-  private registerForm: FormGroup;
   private isNewEvent: boolean;
-  private messageDeleteEvent: string;
-  private pageTitle = 'Events';
   private file: File;
   private currentDate: string;
   private fileNameToUpdate: string;
+
+  events: Event[];
+  registerForm: FormGroup;
+  messageDeleteEvent: string;
+  date: string;
+  pageTitle = 'Events';
 
   private _termsSearch: string;
   get termsSearch() {

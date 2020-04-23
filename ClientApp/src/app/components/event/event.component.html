@@ -123,7 +123,7 @@
             <div class="form-group col-md-4">
               <label>Data</label>
               <input bsDatepicker type="text" class="form-control" formControlName="date"
-                     value="{{ date | dateTimeFormat }}"
+                     value="{{ date | dateTimeFormat }}" [(ngModel)]="date"
                      [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY HH:mm' }" 
                      [ngClass]="{ 'is-invalid': registerForm.get('date').errors && registerForm.get('date').touched }">
               <div class="invalid-feedback" *ngIf="registerForm.get('date').hasError('required') && registerForm.get('date').touched">
